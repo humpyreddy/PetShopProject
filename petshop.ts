@@ -62,8 +62,10 @@
     color = (<HTMLInputElement>document.getElementById("color_input")).value;
     breed = (<HTMLInputElement>document.getElementById("breed_input")).value;
     age = (<HTMLInputElement>document.getElementById("age_input")).value;
-    p.addingpet(new ConcretePet({type:pet,color:color,breed:breed,age:age}));
-    arr = p.retrieveAvailablePets();
+    if(pet.trim().length != 0)
+     {
+      p.addingpet(new ConcretePet({type:pet,color:color,breed:breed,age:age}));
+     } 
     console.log('added pet')
     ClearFields();
 
@@ -83,7 +85,9 @@
  let requestPets = ()=>
  {
         rp= (<HTMLInputElement>document.getElementById("request_input")).value;
-        request.storeEnquiries(rp);
+        if(rp!=''){
+         request.storeEnquiries(rp);
+        }
         (<HTMLInputElement>document.getElementById('request_input')).value="";
 
         document.getElementsByTagName("input")[4].removeAttribute("type");
@@ -115,6 +119,7 @@
         showAvailableStatus(requestedpets);
     }
     
+    request.petenquiries = [];
 
  }
 
@@ -130,20 +135,23 @@ document.body.append(quantity_title)
 
  function showAvailableStatus(requestedpets){
 
-    quantity_title.removeAttribute('class');
-    let row = document.createElement('div');
-    row.classList.add('row','my-rw')
-    row_available.append(row)
-
-    let col_available = document.createElement('div')
-    col_available.classList.add('col','my-col')
-    col_available.innerText = requestedpets.length;
-    row.append(col_available)
-
-    let col_available1 = document.createElement('div')
-    col_available1.classList.add('col','my-col')
-    col_available1.innerText = requestedpets[0].type;
-    row.append(col_available1)
+   if(requestedpets.length>0){
+      quantity_title.removeAttribute('class');
+      let row = document.createElement('div');
+      row.classList.add('row','my-rw')
+      row_available.append(row)
+  
+      let col_available = document.createElement('div')
+      col_available.classList.add('col','my-col')
+      col_available.innerText = requestedpets.length;
+      row.append(col_available)
+  
+      let col_available1 = document.createElement('div')
+      col_available1.classList.add('col','my-col')
+      col_available1.innerText = requestedpets[0].type;
+      row.append(col_available1)
+   }
+   
 
 }
  function showAvailablePets(requestedpets){

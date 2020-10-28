@@ -39,8 +39,9 @@ var addPet = function () {
     color = document.getElementById("color_input").value;
     breed = document.getElementById("breed_input").value;
     age = document.getElementById("age_input").value;
-    p.addingpet(new ConcretePet({ type: pet, color: color, breed: breed, age: age }));
-    arr = p.retrieveAvailablePets();
+    if (pet.trim().length != 0) {
+        p.addingpet(new ConcretePet({ type: pet, color: color, breed: breed, age: age }));
+    }
     console.log('added pet');
     ClearFields();
     document.getElementsByTagName("input")[0].removeAttribute("type");
@@ -52,7 +53,9 @@ var rp;
 var request = new RequestPets();
 var requestPets = function () {
     rp = document.getElementById("request_input").value;
-    request.storeEnquiries(rp);
+    if (rp != '') {
+        request.storeEnquiries(rp);
+    }
     document.getElementById('request_input').value = "";
     document.getElementsByTagName("input")[4].removeAttribute("type");
 };
@@ -74,6 +77,7 @@ var showStatus = function () {
         // showAvailablePets(requestedpets);
         showAvailableStatus(requestedpets);
     }
+    request.petenquiries = [];
 };
 var quantity_title = document.createElement('h5');
 quantity_title.classList.add('hidden');
@@ -83,18 +87,20 @@ var row_available = document.createElement('div');
 row_available.classList.add('container');
 document.body.append(row_available);
 function showAvailableStatus(requestedpets) {
-    quantity_title.removeAttribute('class');
-    var row = document.createElement('div');
-    row.classList.add('row', 'my-rw');
-    row_available.append(row);
-    var col_available = document.createElement('div');
-    col_available.classList.add('col', 'my-col');
-    col_available.innerText = requestedpets.length;
-    row.append(col_available);
-    var col_available1 = document.createElement('div');
-    col_available1.classList.add('col', 'my-col');
-    col_available1.innerText = requestedpets[0].type;
-    row.append(col_available1);
+    if (requestedpets.length > 0) {
+        quantity_title.removeAttribute('class');
+        var row = document.createElement('div');
+        row.classList.add('row', 'my-rw');
+        row_available.append(row);
+        var col_available = document.createElement('div');
+        col_available.classList.add('col', 'my-col');
+        col_available.innerText = requestedpets.length;
+        row.append(col_available);
+        var col_available1 = document.createElement('div');
+        col_available1.classList.add('col', 'my-col');
+        col_available1.innerText = requestedpets[0].type;
+        row.append(col_available1);
+    }
 }
 function showAvailablePets(requestedpets) {
     for (var ele in requestedpets) {
